@@ -27,6 +27,12 @@ get '/new' do
   erb :new
 end
 
+post '/new' do
+  @content = params[:content]
+
+  erb "<b>You typed:</b> #{@content}"
+end
+
 get '/login/form' do
   erb :login_form
 end

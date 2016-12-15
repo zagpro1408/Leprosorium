@@ -1,13 +1,17 @@
 <h1>Add New Post</h1>
 <p>
 <div class="row">
+
+  <!-- Поле для нового поста -->
   <div class="col-md-8">
     <form action="/new" method="POST" role="form">
-      <textarea class="form-control" rows="6" placeholder="Type post text here"></textarea>
+      <textarea name="content"class="form-control" rows="6" placeholder="Type post text here"></textarea>
       <br>
       <button type="submit" class="btn btn-success">Submit</button>
     </form>
   </div>
+
+  <!-- Боковое меню -->
   <div class="col-md-4">
     <ul>
       <li><a href="#">Тут</a></li>
@@ -16,5 +20,6 @@
       <li><a href="#">меню</a></li>
     </ul>
   </div>
+
 </div>
 </p>
