@@ -29,7 +29,7 @@ configure do
       content TEXT
     );'
 
-    @db.execute 'CREATE TABLE IF NOT EXISTS Comits
+    @db.execute 'CREATE TABLE IF NOT EXISTS Comments
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       created_date DATE,
@@ -60,7 +60,7 @@ post '/new' do
   # получаем переменную из post-запроса
   content = params[:content]
   # проверка на пустое сообщение
-  if @content.strip.empty?
+  if content.strip.empty?
     @error = "Type text for your post"
     return erb :new
   end
@@ -92,9 +92,12 @@ post '/details/:post_id' do
   post_id = params[:post_id]
   # получаем переменную из post-запроса
   content = params[:content]
-
+  # сохранение данных в БД
+  @db.execute 'INSERT INTO Comments
+    (content, created_date, post_id) values (?, datetime(), ?);', [content, post_id]
   erb "You typed comment: #{content} for post #{post_id}"
-
+  # перенаправление на страницу поста
+  redirect to ('/details/' + post_id)
 end
 
 #Если убрать, то Sinatra выдает ошибку
