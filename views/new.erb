@@ -5,7 +5,12 @@
   <!-- Поле для нового поста -->
   <div class="col-md-8">
     <form action="/new" method="POST" role="form">
-      <textarea name="content" class="form-control" rows="6" placeholder="Type post text here"></textarea>
+      <label for="username"><p>Your name: </p></label>
+      <input name="username" type="text" class="form-control" placeholder="Type your name here" id="username">
+
+      <br>
+      <label for="post_content"><p>Post: </p></label>
+      <textarea id="post_content" name="content" class="form-control" rows="6" placeholder="Type post text here"></textarea>
       <br>
       <button type="submit" class="btn btn-success">Submit</button>
     </form>
