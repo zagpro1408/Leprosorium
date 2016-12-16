@@ -33,7 +33,7 @@ end
 
 
 get '/' do
-  erb 'Can you handle a <a href="/secure/place">secret</a>?'
+  erb :index
 end
 
 
@@ -49,13 +49,12 @@ end
 post '/new' do
   # получаем переменную из post-запроса
   @content = params[:content]
-
   # проверка на пустое сообщение
   if @content.strip.empty?
     @error = "Type text for your post"
     return erb :new
   end
-
+  # сохранение данных в БД
   @db.execute 'INSERT INTO Posts
     (content, created_date) values (?, datetime());', [@content]
 
