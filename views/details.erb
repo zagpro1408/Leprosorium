@@ -7,6 +7,14 @@
 <br><br>
 <h4 style="color: green;">Comments:</h4>
 
+ <p>
+  <form action="/details/<%= @row['id'] %>" method="POST" role="form">
+    <textarea name="content" class="form-control" rows="6" placeholder="Type comment text here"></textarea>
+    <br>
+    <button type="submit" class="btn btn-success">Add comment</button>
+  </form>
+</p>
+
 <% @comments.each do |comment| %>
   <p>
     &nbsp <%=  comment['content'] %><br>
@@ -15,10 +23,4 @@
   <hr>
 <% end %>
 
- <p>
-  <form action="/details/<%= @row['id'] %>" method="POST" role="form">
-    <textarea name="content" class="form-control" rows="6" placeholder="Type comment text here"></textarea>
-    <br>
-    <button type="submit" class="btn btn-success">Add comment</button>
-  </form>
-</p>
+
