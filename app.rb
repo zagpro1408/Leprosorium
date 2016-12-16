@@ -66,8 +66,10 @@ end
 # вывод информации о посте
 get '/details/:post_id' do
   post_id = params[:post_id]
+  results = @db.execute 'SELECT * FROM Posts WHERE id = ?', [post_id]
+  @row = results[0]
 
-  erb "Displaying information for post with id #{post_id}"
+  erb :details
 end
 
 #Если убрать, то Sinatra выдает ошибку
