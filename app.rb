@@ -8,16 +8,20 @@ def init_db
     @db.results_as_hash = true
 end
 
+
 #Запускает метод init_db перед каждым действием;
 #Испольуется для сокращения кода;
 before do
   init_db
 end
 
-#Создаем таблицы при инициализации приложения;
-#Всегда когда сохраняем файл и когда обнвляем страницу;
+
+# вызывается каждый раз при конфигурации приложения:
+# когда изменился код программы И перезагрузилась страница
 configure do
+  # инициализация БД
   init_db
+  # создает таблицу, если таблица не существует
   @db.execute 'CREATE TABLE IF NOT EXISTS Posts
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,19 +30,29 @@ configure do
     );'
 end
 
+
+
 get '/' do
   erb 'Can you handle a <a href="/secure/place">secret</a>?'
 end
 
+
+# обработчик get-запроса /new
+# (браузер получает страницу с сервера)
 get '/new' do
   erb :new
 end
 
+
+# обработчик post-запроса
+# (браузер отправляет данные на сервер)
 post '/new' do
+  # получаем переменную из post-запроса
   @content = params[:content]
 
   erb "<b>You typed:</b> #{@content}"
 end
+
 
 #Если убрать, то Sinatra выдает ошибку
 helpers do
