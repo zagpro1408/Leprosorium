@@ -50,7 +50,7 @@ end
 # (браузер отправляет данные на сервер)
 post '/new' do
   # получаем переменную из post-запроса
-  @content = params[:content]
+  content = params[:content]
   # проверка на пустое сообщение
   if @content.strip.empty?
     @error = "Type text for your post"
@@ -58,7 +58,7 @@ post '/new' do
   end
   # сохранение данных в БД
   @db.execute 'INSERT INTO Posts
-    (content, created_date) values (?, datetime());', [@content]
+    (content, created_date) values (?, datetime());', [content]
   # перенаправление на главную страницу
   redirect to '/'
 end
@@ -74,6 +74,19 @@ get '/details/:post_id' do
   @row = results[0]
   # возвращаем представление details.erb
   erb :details
+end
+
+
+# обработчик post-запроса
+# браузер отправляет данные на сервер
+post '/details/:post_id' do
+  # получаем переменную из URL
+  post_id = params[:post_id]
+  # получаем переменную из post-запроса
+  content = params[:content]
+
+  erb "You typed comment: #{content} for post #{post_id}"
+
 end
 
 #Если убрать, то Sinatra выдает ошибку
