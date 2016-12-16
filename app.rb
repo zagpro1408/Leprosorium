@@ -33,6 +33,8 @@ end
 
 
 get '/' do
+  # выбираем список постов из БД
+  @results = @db.execute 'SELECT * FROM Post order by id desc'
   erb :index
 end
 
