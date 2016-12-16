@@ -8,26 +8,22 @@ def init_db
     @db.results_as_hash = true
 end
 
-configure do
-  enable :sessions
-end
-
+#Запускает метод init_db перед каждым действием;
+#Испольуется для сокращения кода;
 before do
   init_db
 end
 
-helpers do
-  def username
-    session[:identity] ? session[:identity] : 'Hello stranger'
-  end
-end
-
-before '/secure/*' do
-  unless session[:identity]
-    session[:previous_url] = request.path
-    @error = 'Sorry, you need to be logged in to visit ' + request.path
-    halt erb(:login_form)
-  end
+#Создаем таблицы при инициализации приложения;
+#Всегда когда сохраняем файл и когда обнвляем страницу;
+configure do
+  init_db
+  @db.execute 'CREATE TABLE IF NOT EXISTS Posts
+    (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      created_date DATE,
+      content TEXT
+    );'
 end
 
 get '/' do
@@ -44,21 +40,9 @@ post '/new' do
   erb "<b>You typed:</b> #{@content}"
 end
 
-get '/login/form' do
-  erb :login_form
-end
-
-post '/login/attempt' do
-  session[:identity] = params['username']
-  where_user_came_from = session[:previous_url] || '/'
-  redirect to where_user_came_from
-end
-
-get '/logout' do
-  session.delete(:identity)
-  erb "<div class='alert alert-message'>Logged out</div>"
-end
-
-get '/secure/place' do
-  erb 'This is a secret place that only <%=session[:identity]%> has access to!'
+#Если убрать, то Sinatra выдает ошибку
+helpers do
+  def username
+    session[:identity] ? session[:identity] : 'Hello stranger'
+  end
 end
